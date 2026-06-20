@@ -5,7 +5,7 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from datetime import datetime, timedelta, timezone
 from jose import JWTError, jwt
-from passlib.context import CryptContext
+import bcrypt
 
 from database import User
 from db import get_db
@@ -22,10 +22,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 # deprecated="auto" means if old hash formats exist,
 # passlib can automatically migrate them.
 
-pwd_context = CryptContext(
-    schemes=["bcrypt"],
-    deprecated="auto"
-)
+# Using native bcrypt directly for password hashing and verification
 
 
 # Tells FastAPI where login endpoint exists.
@@ -41,17 +38,17 @@ oauth2_scheme = OAuth2PasswordBearer(
 # ---------------------------------------------------------
 
 def verify_password(
-    plain_password,
-    hashed_password
-):
-    return pwd_context.verify(
-        plain_password,
-        hashed_password
+    plain_password: str,
+    hashed_password: str
+) -> bool:
+    return bcrypt.checkpw(
+        plain_password.encode('utf-8'),
+        hashed_password.encode('utf-8')
     )
 
 
-def get_password_hash(password):
-    return pwd_context.hash(password)
+def get_password_hash(password: str) -> str:
+    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
 
 # ---------------------------------------------------------

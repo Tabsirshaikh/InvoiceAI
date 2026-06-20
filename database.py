@@ -21,6 +21,7 @@ class Invoice(Base):
     quantity = Column(Integer, nullable=False)
     ppc      = Column(Integer, nullable=False)
     Total    = Column(Integer)
+    invoice_number = Column(Integer, nullable=True)
 
 
 class User(Base):

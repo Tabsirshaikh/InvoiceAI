@@ -1,5 +1,7 @@
 from typing import Annotated, Optional
 from fastapi import FastAPI, HTTPException, Depends, status
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from database import engine, Invoice, User
 from sqlalchemy.orm import Session
@@ -66,10 +68,15 @@ app.add_middleware(
 # ─────────────────────────────────────────────
 # HEALTH CHECK
 # ─────────────────────────────────────────────
+app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/auth", StaticFiles(directory="auth"), name="auth")
+app.mount("/invoice", StaticFiles(directory="invoice"), name="invoice")
+app.mount("/records", StaticFiles(directory="records"), name="records")
 
 @app.get("/")
+@app.get("/index.html")
 def hello():
-    return "hello"
+    return FileResponse('index.html')
 
 
 # ─────────────────────────────────────────────
@@ -83,13 +90,18 @@ def adddata(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
+    # Calculate the next invoice_number for this user
+    max_num = db.query(Invoice.invoice_number).filter(Invoice.user_id == current_user.id).order_by(Invoice.invoice_number.desc()).first()
+    next_num = 1 if (max_num is None or max_num[0] is None) else max_num[0] + 1
+
     invoice = Invoice(
         user_id  = current_user.id,      # stamp: this invoice belongs to the logged-in user
         name     = invoiceobj.name,
         product  = invoiceobj.product,
         quantity = invoiceobj.quantity,
         ppc      = invoiceobj.ppc,
-        Total    = invoiceobj.Total
+        Total    = invoiceobj.Total,
+        invoice_number = next_num
     )
     db.add(invoice)
     db.commit()
@@ -114,7 +126,8 @@ def fetchdata(
     invoices = db.query(Invoice).filter(Invoice.user_id == current_user.id).all()
     return [
         {
-            "id":       invoice.id,
+            "id":       invoice.invoice_number or invoice.id,
+            "db_id":    invoice.id,
             "client":   invoice.name,
             "quantity": invoice.quantity,
             "ppc":      invoice.ppc,
@@ -147,7 +160,8 @@ def sorting(
 
     return [
         {
-            "id":       invoice.id,
+            "id":       invoice.invoice_number or invoice.id,
+            "db_id":    invoice.id,
             "client":   invoice.name,
             "quantity": invoice.quantity,
             "ppc":      invoice.ppc,

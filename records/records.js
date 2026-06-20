@@ -34,7 +34,10 @@ function handle401(response) {
 // Build HTML table from records array
 // ─────────────────────────────────────────────
 
+let loadedRecords = [];
+
 function buildTable(data) {
+    loadedRecords = data;
     let html = `
     <table border="1">
         <tr>
@@ -129,7 +132,19 @@ async function updateInvoice(event) {
     const headers = authHeaders();
     if (!headers) return;
 
-    const invoiceId = idInput.value;
+    const displayId = parseInt(idInput.value);
+    if (isNaN(displayId)) {
+        idError.textContent = 'Please enter a valid ID';
+        return;
+    }
+
+    const record = loadedRecords.find(r => r.id === displayId);
+    if (!record) {
+        idError.textContent = 'Invoice ID not found';
+        return;
+    }
+
+    const invoiceId = record.db_id;
     const quantity  = parseInt(document.querySelector('#quantity').value);
     const ppc       = parseInt(document.querySelector('#ppcs').value);
 
