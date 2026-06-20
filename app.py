@@ -93,6 +93,52 @@ def adddata(
     # Calculate the next invoice_number for this user
     max_num = db.query(Invoice.invoice_number).filter(Invoice.user_id == current_user.id).order_by(Invoice.invoice_number.desc()).first()
     next_num = 1 if (max_num is None or max_num[0] is None) else max_num[0] + 1
+# Here is a step-by-step breakdown of how the changes work and what that specific piece of code does:
+
+# ### 1. The Problem with the Default Database ID
+# Previously, your database `id` was the table's **Primary Key**. Primary keys must be globally unique across the *entire database table*. 
+# * If **User A** created an invoice, it got ID `11`.
+# * If **User B** created a new invoice, the database assigned it ID `12` so it wouldn't conflict with User A. 
+# This is why a new user’s records did not start from `1`.
+
+# ---
+
+# ### 2. How the New Solution Works
+# We introduced a separate field called `invoice_number`. Under this system:
+# * Behind the scenes, the database still uses the global unique ID (like `11`, `12`) to identify rows.
+# * On the screen, the frontend shows the `invoice_number` (starting from `1` for each user).
+
+# ---
+
+# ### 3. Code Explanation (Line-by-Line)
+
+# ```python
+# # 1. Look up the highest invoice number that THIS user currently has
+# max_num = db.query(Invoice.invoice_number)\
+#             .filter(Invoice.user_id == current_user.id)\
+#             .order_by(Invoice.invoice_number.desc())\
+#             .first()
+# ```
+# * `db.query(Invoice.invoice_number)`: Retrieves only the `invoice_number` column.
+# * `.filter(Invoice.user_id == current_user.id)`: Restricts the search **only** to invoices belonging to the logged-in user.
+# * `.order_by(Invoice.invoice_number.desc())`: Sorts the results in descending order (largest number first).
+# * `.first()`: Gets the very first result from the sorted list. Since it's sorted descending, this represents the **highest existing invoice number** for this user.
+
+# ---
+
+# ```python
+# # 2. Determine the next sequence number
+# next_num = 1 if (max_num is None or max_num[0] is None) else max_num[0] + 1
+# ```
+# * **If `max_num` is `None`:** The user has no invoices yet, so we assign `1`.
+# * **If `max_num` exists:** We take their highest invoice number (`max_num[0]`) and add `1` (e.g., if their last invoice was number `5`, this new one becomes number `6`).
+
+# ---
+
+# ### 4. Frontend Integration
+# When your frontend requests records from `/records`, the backend returns:
+# * `"id": invoice.invoice_number` — This is the sequential number (e.g., `1`, `2`, `3`) shown to the user.
+# * `"db_id": invoice.id` — This is the true database primary key (e.g., `11`, `12`) that the javascript code keeps track of in the background so it can safely run update requests.    
 
     invoice = Invoice(
         user_id  = current_user.id,      # stamp: this invoice belongs to the logged-in user
