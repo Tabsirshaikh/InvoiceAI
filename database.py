@@ -24,6 +24,7 @@ class Invoice(Base):
     invoice_number = Column(Integer, nullable=True)
 
 
+
 class User(Base):
     __tablename__ = 'Users'
     id              = Column(Integer, primary_key=True)

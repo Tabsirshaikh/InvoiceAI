@@ -64,7 +64,7 @@ async function add() {
     };
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/add', {
+        const response = await fetch('/add', {
             method: 'POST',
             headers: headers,
             body: JSON.stringify(invoice)

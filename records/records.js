@@ -76,7 +76,7 @@ async function loaddata() {
     if (!headers) return;
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/records', {
+        const response = await fetch('/records', {
             headers: headers
         });
 
@@ -103,7 +103,7 @@ async function sorting() {
     const filter = document.querySelector('#type').value;
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/filter', {
+        const response = await fetch('/filter', {
             method: 'POST',
             headers: headers,
             body: JSON.stringify({ order, filter })
@@ -161,7 +161,7 @@ async function updateInvoice(event) {
 
     try {
         const response = await fetch(
-            `http://127.0.0.1:8000/update/${invoiceId}`,
+            `/update/${invoiceId}`,
             {
                 method: 'PUT',
                 headers: headers,
