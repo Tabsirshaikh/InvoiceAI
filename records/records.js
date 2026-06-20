@@ -46,6 +46,7 @@ function buildTable(data) {
             <th>Quantity</th>
             <th>Price/pc</th>
             <th>Total</th>
+            <th>product</th>
         </tr>
     `;
 
@@ -57,6 +58,7 @@ function buildTable(data) {
             <td>${record.quantity}</td>
             <td>${record.ppc}</td>
             <td>${record.Total}</td>
+             <td>${record.product}</td>
         </tr>
         `;
     });

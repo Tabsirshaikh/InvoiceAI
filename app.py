@@ -177,7 +177,8 @@ def fetchdata(
             "client":   invoice.name,
             "quantity": invoice.quantity,
             "ppc":      invoice.ppc,
-            "Total":    invoice.Total
+            "Total":    invoice.Total,
+            "product":  invoice.product
         }
         for invoice in invoices
     ]
@@ -211,7 +212,8 @@ def sorting(
             "client":   invoice.name,
             "quantity": invoice.quantity,
             "ppc":      invoice.ppc,
-            "Total":    invoice.Total
+            "Total":    invoice.Total,
+             "product":  invoice.product
         }
         for invoice in invoices
     ]
