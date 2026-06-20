@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            records
+        </title>
+        <link rel="Stylesheet" href="records.css">
+    </head>
+
+    <body>
+<h1>
+    data table
+</h1>
+
+<div id="filternav">
+
+ <label for="order">sorting</label>
+<select id="order" name="order">
+<option>ascending order</option>
+<option>descending order</option>
+</select>
+ <label for="type">factor</label>
+<select id="type" name="order">
+<option>id</option>
+<option>name</option>
+<option>quantity</option>
+<option>ppc</option>
+<option>Total</option>
+</select>
+
+<input type="submit" id="sortbutton" placeholder="search">
+
+</div>
+
+<div id="table">
+   
+</div>
+
+<h2>update the values from the data table</h2>
+<div id="update">
+    <label for="idselect">select which id you want to update
+    </label>
+    <input type="text" id="idselect" placeholder="eneter a value">
+    <div id="iderror"></div>
+
+<form id="invoiceForm">
+
+    <div class="field">
+        <label for="client">Customer Name</label>
+        <input
+            type="text"
+            id="client"
+            name="name" 
+            placeholder="Enter customer name"
+        >
+        <div id="inputshow"></div>
+    </div>
+
+    <div class="field">
+        <label for="product">Product</label>
+
+        <select
+            id="product"
+            name="product"
+        >
+            <option value="">Select Product</option>
+            <option value="Laptop">Laptop</option>
+            <option value="Mobile">Mobile</option>
+            <option value="Books">Books</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label for="quantity">Quantity</label>
+
+        <input
+            type="number"
+            id="quantity"
+            name="quantity"
+            min="1"
+        >
+
+        <div id="qshow"></div>
+    </div>
+
+    <div class="field">
+        <label for="ppcs">Price Per Piece</label>
+
+        <input
+            type="number"
+            id="ppcs"
+            name="ppc"
+            min="1"
+        >
+
+        <div id="pshow"></div>
+    </div>
+
+    <div class="totalBox">
+        Total:
+        <div id="total"></div>
+    </div>
+
+    <button
+        type="submit"
+        id="updateBtn"
+    >
+        Submit Invoice
+    </button>
+
+</form>
+
+<div id="show"></div>
+
+</div>
+
+
+
+<script src="records.js"></script>
+    </body>
+
+</html>

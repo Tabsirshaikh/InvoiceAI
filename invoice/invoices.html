@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="invoices.css">
+</head>
+<body>
+    <h1>Inovice</h1>
+    <h2>create a invoice for you customers</h2>
+    
+    <div class="mainbox">
+
+    <div class="names">
+        <label for="client">enter your client name</label>
+        <input type="text" id="client" placeholder="enter the name">
+        <div id="inputshow"></div> <!-- FIXED POSITION -->
+    </div>
+
+    <div class="names">
+        <label for="product">what is the product</label>
+        <select id="product">
+            <option>smartphones</option>
+            <option>laptop</option>
+            <option>books</option>
+            <option>general stuff</option>
+        </select>
+    </div>
+
+    <div class="names">
+        <label for="quantity">quantity</label>
+        <input type="text" id="quantity" placeholder="enter some values">
+        <div id="qshow"></div>
+    </div>
+
+    <div class="names">
+        <label for="ppcs">price per pcs</label>
+        <input type="text" id="ppcs" placeholder="enter some values">
+         <div id="pshow"></div>
+    </div>
+
+    <div class="names total-box">
+        <label>Total price:</label>
+        <div id="total"></div>
+    </div>
+
+    <div class="submit-container">
+        <input type="submit" id="submit" value="submit the form">
+    </div>
+
+     <div class="names total-box">
+        <div id="show"></div>
+    </div>
+
+</div>
+<div class="hero-buttons">
+        <a href="../records/records.html" class="primary-btn">
+            Deshboard
+        </a>
+
+    </div>
+<script src="invoices.js"></script>
+</body>
+</html>

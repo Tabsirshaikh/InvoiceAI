@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InvoiceAI — Sign In</title>
+    <meta name="description" content="Sign in or create an account to access InvoiceAI.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+
+    <!-- Background blobs -->
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+
+    <div class="page-wrap">
+
+        <!-- Left panel — branding -->
+        <div class="brand-panel">
+            <a href="../index.html" class="logo">InvoiceAI</a>
+            <div class="brand-body">
+                <h2>Your invoices,<br><span>smarter.</span></h2>
+                <p>Manage clients, generate invoices and automate billing with powerful tools built for freelancers and businesses.</p>
+                <ul class="perks">
+                    <li>⚡ Instant invoice generation</li>
+                    <li>🔒 Secure JWT authentication</li>
+                    <li>📊 Real-time records dashboard</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Right panel — form -->
+        <div class="form-panel">
+            <div class="card">
+
+                <!-- Tab switcher -->
+                <div class="tabs">
+                    <button id="tab-login" class="tab active" onclick="switchTab('login')">Login</button>
+                    <button id="tab-register" class="tab" onclick="switchTab('register')">Register</button>
+                    <div class="tab-indicator" id="tab-indicator"></div>
+                </div>
+
+                <!-- Error / success banner -->
+                <div id="banner" class="banner hidden"></div>
+
+                <!-- LOGIN FORM -->
+                <form id="login-form" class="auth-form" onsubmit="handleLogin(event)">
+                    <h1 class="form-title">Welcome back</h1>
+                    <p class="form-sub">Enter your credentials to continue</p>
+
+                    <div class="field">
+                        <label for="login-username">Username</label>
+                        <input id="login-username" type="text" placeholder="your username" autocomplete="username" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="login-password">Password</label>
+                        <div class="pw-wrap">
+                            <input id="login-password" type="password" placeholder="••••••••" autocomplete="current-password" required>
+                            <button type="button" class="eye-btn" onclick="togglePw('login-password', this)">👁</button>
+                        </div>
+                    </div>
+
+                    <button id="login-btn" type="submit" class="submit-btn">
+                        <span class="btn-text">Sign In</span>
+                        <span class="spinner hidden" id="login-spinner"></span>
+                    </button>
+
+                    <p class="switch-text">Don't have an account? <a href="#" onclick="switchTab('register')">Register</a></p>
+                </form>
+
+                <!-- REGISTER FORM -->
+                <form id="register-form" class="auth-form hidden" onsubmit="handleRegister(event)">
+                    <h1 class="form-title">Create account</h1>
+                    <p class="form-sub">Join InvoiceAI — it's free</p>
+
+                    <div class="field">
+                        <label for="reg-username">Username</label>
+                        <input id="reg-username" type="text" placeholder="choose a username" autocomplete="username" required minlength="3" maxlength="50">
+                    </div>
+
+                    <div class="field">
+                        <label for="reg-password">Password</label>
+                        <div class="pw-wrap">
+                            <input id="reg-password" type="password" placeholder="min. 6 characters" autocomplete="new-password" required minlength="6">
+                            <button type="button" class="eye-btn" onclick="togglePw('reg-password', this)">👁</button>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="reg-confirm">Confirm Password</label>
+                        <div class="pw-wrap">
+                            <input id="reg-confirm" type="password" placeholder="repeat your password" autocomplete="new-password" required minlength="6">
+                            <button type="button" class="eye-btn" onclick="togglePw('reg-confirm', this)">👁</button>
+                        </div>
+                    </div>
+
+                    <button id="reg-btn" type="submit" class="submit-btn">
+                        <span class="btn-text">Create Account</span>
+                        <span class="spinner hidden" id="reg-spinner"></span>
+                    </button>
+
+                    <p class="switch-text">Already have an account? <a href="#" onclick="switchTab('login')">Sign in</a></p>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>
